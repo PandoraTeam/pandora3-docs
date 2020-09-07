@@ -464,11 +464,6 @@ namespace App\Widgets\Menu;
 
  // В качестве примера указаны только основные модели
 use App\Models\Directions\Direction;
-use App\Models\Examination\ExaminationMark;
-use App\Models\FinanceHelp\FinanceHelp;
-use App\Models\Stipend\Stipend;
-use App\Models\StudentGroups\StudentGroup;
-use App\Models\Students\Student;
 use App\Models\StudyPlans\StudyPlan;
 use App\Models\Users\User;
 use Pandora3\Libs\Widget\Widget;
