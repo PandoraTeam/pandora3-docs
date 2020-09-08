@@ -430,7 +430,31 @@ class Menu extends Widget {
 
 #### Через конфигурационный массив
 
+Пусть обычно нам нужно показать пять новостей, но в некоторых представлениях нам нужно показать десять. Добьемся этого следующим образом:
+
+```php
+class RecentNews extends AbstractWidget
+{
+    ...
+    protected $config = [
+        'count' => 5
+    ];
+    ...
+}
+
+...
+@widget('recentNews') // shows 5
+@widget('recentNews', ['count' => 10]) // shows 10
+```
+
 #### Напрямую через метод run()
+
+```php
+@widget('recentNews', ['count' => 10], 'date', 'asc')
+...
+public function run($sortBy, $sortOrder) { }
+...
+```
 
 ### Пример с передачей параметров.
 
