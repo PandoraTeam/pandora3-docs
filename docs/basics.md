@@ -181,24 +181,8 @@ protected function articlePrint() {
 
 Для начала создадим модель Eloquent. Модели обычно располагаются в директории `app`. Но возможно поместить их в любое место, в котором работает автозагрузчик. Все модели Eloquent наследуют класс `Illuminate\Database\Eloquent\Model`.
 
-Рассмотрим на примере модели `Employee.php`, которая используется для получения и хранения информации из таблицы базы данных о сотрудниках:
+Рассмотрим на примере модели `Employee.php`, которая используется для получения и хранения информации из таблицы базы данных о сотрудниках. Имя таблицы можно указать явно:
 
-```php
-<?php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
-class Employee extends Model {
-       //
-}
-```
-
-### Имена таблиц
-
-Можно явно указать имя таблицы.
 ```php
 <?php
 namespace App\Models;
@@ -216,7 +200,11 @@ class Employee extends Model {
 	 protected $table = 'employee';
 }
 ```
-Если это имя не указано явно, то в соответствии с принятым соглашением будет использовано имя класса в нижнем регистре (snake_case) и во множественном числе.
+
+
+::: tip Примечание
+Если имя таблицы не указано явно, то в соответствии с принятым соглашением будет использовано имя класса в нижнем регистре (snake_case) и во множественном числе.
+:::
 
 ### Первичные ключи
 
