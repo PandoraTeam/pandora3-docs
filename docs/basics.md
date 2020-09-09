@@ -237,7 +237,7 @@ class Employee extends Model {
 
 ```php
 <?php
-namespace App\Models\Users;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Pandora3\Libs\Application\Application;
@@ -257,22 +257,21 @@ class User extends Model {
 
 ### Соединение с БД
 
-По умолчанию модели Eloquent будут использовать основное соединение с БД, настроенное для приложения. Если есть необходимость указать другое соединение для модели, то надо использовать свойство $connection. Например, в модели `EduUser.php` было указано отличное от основного соединение: 
+По умолчанию модели Eloquent будут использовать основное соединение с БД, настроенное для приложения. Если есть необходимость указать другое соединение для модели, то надо использовать свойство $connection. Например, укажем в модели `User.php` отличное от основного соединение: 
 
 ```php
 <?php
-namespace Auth\Services\Employee;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Employee;
 
-class EmployeeImportService extends Model {
+class User extends Model {
 	/**
 	 * Название соединения для модели.
 	 *
 	 * @var string
 	 */
-	 protected $connection = 'edu';
+	 protected $connection = 'testUser';
 }
 ```
 
@@ -282,12 +281,11 @@ class EmployeeImportService extends Model {
 
 ```php
 <?php
-use App\Models\Users;
+use App\Models;
 
 protected function printUser() {
 	 $users = App\Models\Users::all();
-
-	 foreach ($users as $user) {
+	 foreach ($users as $user)
 		 echo $user->login;
 }
 ```
@@ -308,7 +306,6 @@ $user = App\Models\Users::find(1);
 
 // Получение первой модели, удовлетворяющей условиям
 $user = App\Models\Users::where('id', 1)->first();
-}
 ```
 
 Также можно вызвать метод `find` с массивом первичных ключей, который вернёт коллекцию подходящих записей:
@@ -317,24 +314,20 @@ $user = App\Models\Users::where('id', 1)->first();
 <?php
 
 $user = App\Models\Users::find([1, 2, 3]);
-}
 ```
 
-::: tip Примечание
-Если в таблице не найдены записи, удовлетворяющие условию, то будет обработано исключение Не найдено". Методы `findOrFail` и `firstOrFail` получают первый результат запроса. А если результатов не найдено, выбрасывается исключение `Illuminate\Database\Eloquent\ModelNotFoundException`. Пример можно увидеть в функции обновления пользователя.
+Методы `findOrFail` и `firstOrFail` получают первый результат запроса. А если результатов не найдено, выбрасывается исключение `Illuminate\Database\Eloquent\ModelNotFoundException`. Пример можно увидеть в функции обновления пользователя.
 
 ```php
-<?php
-namespace App\Plugins\Users\Controllers;
-
-use App\Models\Users;
-
 protected function update() {
 	 $id = (int) $this->request->get('id');
 	 $user = User::findOrFail($id);
 	 // Если пользователь найден, то далее следует обновление данных
 }
-```
+``` 
+
+::: tip Примечание
+Если в таблице не найдены записи, удовлетворяющие условию, то будет обработано исключение Не найдено". 
 :::
 
 ### Встака и изменение моделей
@@ -345,7 +338,7 @@ protected function update() {
 <?php
 namespace App\Plugins\Students\Controllers;
 
-use App\Models\Students\Student;
+use App\Models;
 
 class StudentController extends Controller {
 	/**
@@ -379,6 +372,7 @@ class StudentController extends Controller {
 	$student->delete();
 }
 ```
+
 В итоге будет удалена информация о студенте с заданным `id`.
 
 ## Виджеты
@@ -427,34 +421,9 @@ class Menu extends Widget {
 Если виджет должен, для своей работы, получить какие-то данные из контроллера и тд. (передаются в шаблоне), то необходимо предусмотреть метод конструктор для класса виджета с получением аргумента в виде массива параметров. 
 
 ### Передача переменных в виджет
+3
 
-#### Через конфигурационный массив
-
-Пусть обычно нам нужно показать пять новостей, но в некоторых представлениях нам нужно показать десять. Добьемся этого следующим образом:
-
-```php
-class RecentNews extends AbstractWidget
-{
-    ...
-    protected $config = [
-        'count' => 5
-    ];
-    ...
-}
-
-...
-@widget('recentNews') // shows 5
-@widget('recentNews', ['count' => 10]) // shows 10
-```
-
-#### Напрямую через метод run()
-
-```php
-@widget('recentNews', ['count' => 10], 'date', 'asc')
-...
-public function run($sortBy, $sortOrder) { }
-...
-```
+## Создание приложения
 
 ### Пример виджета с передачей параметров.
 
