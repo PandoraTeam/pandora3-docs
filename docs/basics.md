@@ -352,6 +352,7 @@ class StudentController extends Controller {
 		\DB::beginTransaction();
 		$student = new Student( array_replace($form->studentValues, ['userId' => $user->id]) );
 		$student->saveOrFail();
+		\DB::commit();
 }
 ```
 
